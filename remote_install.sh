@@ -54,7 +54,8 @@ run_with_animation() {
     local cmd="$1"
     local message="$2"
     
-    eval "$cmd" &
+    # 명령 출력을 /dev/null로 리다이렉션
+    eval "$cmd > /dev/null 2>&1" &
     local pid=$!
     
     animate_spinner $pid "$message"

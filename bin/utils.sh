@@ -112,7 +112,8 @@ run_with_animation() {
     local title="$2"
     local duration="$3"  # 예상 소요 시간(초), progress_bar에만 사용
     
-    eval "$cmd" &
+    # 명령 출력을 /dev/null로 리다이렉션
+    eval "$cmd > /dev/null 2>&1" &
     local pid=$!
     
     case $ANIMATION_TYPE in
