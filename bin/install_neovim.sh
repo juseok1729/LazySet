@@ -15,6 +15,36 @@ else
     log_error() { echo "❌ $1"; }
 fi
 
+# vi alias를 추가하는 함수
+add_vi_alias() {
+    # 사용자의 셸 설정 파일 확인
+    local SHELL_CONFIG=""
+    if [[ -f ~/.bashrc ]]; then
+        SHELL_CONFIG=~/.bashrc
+    elif [[ -f ~/.bash_profile ]]; then
+        SHELL_CONFIG=~/.bash_profile
+    elif [[ -f ~/.zshrc ]]; then
+        SHELL_CONFIG=~/.zshrc
+    else
+        log_warning "셸 설정 파일을 찾을 수 없습니다. vi alias를 수동으로 추가해주세요."
+        return
+    fi
+
+    # vi alias가 이미 있는지 확인
+    if ! grep -q "alias vi='nvim'" "$SHELL_CONFIG"; then
+        log_info "vi alias를 $SHELL_CONFIG에 추가하는 중..."
+        echo -e "\n# Neovim as vi alias\nalias vi='nvim'" >> "$SHELL_CONFIG"
+        log_success "vi alias가 추가되었습니다."
+    else
+        log_info "vi alias가 이미 $SHELL_CONFIG에 존재합니다."
+    fi
+
+    # vim alias도 추가
+    if ! grep -q "alias vim='nvim'" "$SHELL_CONFIG"; then
+        echo "alias vim='nvim'" >> "$SHELL_CONFIG"
+    fi
+}
+
 # 인자 확인
 OS=$1
 MACHINE=$2
@@ -44,6 +74,9 @@ if [[ "$OS" == "linux" ]]; then
         echo 'export PATH="$PATH:/opt/nvim-linux-x86_64/bin"' >> ~/.bashrc
     fi
     
+    # vi alias 추가
+    add_vi_alias
+    
     # 현재 셸에 PATH 추가
     export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
     
@@ -66,6 +99,9 @@ elif [[ "$OS" == "macos" ]]; then
     # 임시 파일 정리
     rm -rf nvim-macos-$MACHINE.tar.gz nvim-macos-$MACHINE
     
+    # vi alias 추가
+    add_vi_alias
+    
     log_success "macOS용 Neovim 설치 완료"
 else
     log_error "지원되지 않는 운영체제입니다: $OS"
@@ -76,6 +112,12 @@ fi
 if command -v nvim &> /dev/null; then
     log_success "Neovim 설치 버전: $(nvim --version | head -n 1)"
     log_success "Neovim 명령어 경로: $(which nvim)"
+    
+    # 현재 세션에 alias 추가
+    alias vi='nvim'
+    alias vim='nvim'
+    log_success "현재 세션에 vi 및 vim alias가 추가되었습니다."
+    log_info "모든 터미널에서 alias를 사용하려면 셸을 다시 시작하거나 설정 파일을 로드하세요: source ~/.bashrc"
 else
     log_warning "Neovim이 설치되었지만 PATH에 추가되지 않았습니다."
     log_warning "다음 명령어로 Neovim을 직접 실행할 수 있습니다: /usr/local/bin/nvim"
