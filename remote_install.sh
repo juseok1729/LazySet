@@ -32,11 +32,33 @@ if ! command -v git &> /dev/null; then
             exit 1
         fi
     elif [[ "$OSTYPE" == "darwin"* ]]; then
+        # Xcode Command Line Tools 확인 및 설치
+        if ! xcode-select -p &>/dev/null; then
+            echo "🔨 Xcode Command Line Tools 설치 중..."
+            xcode-select --install
+            
+            echo "⚠️ Xcode Command Line Tools 설치가 진행 중입니다."
+            echo "⚠️ 설치 프롬프트가 표시되면 '설치'를 클릭하고 설치가 완료될 때까지 기다려주세요."
+            echo "⚠️ 설치가 완료된 후 이 스크립트를 다시 실행해주세요."
+            
+            exit 1
+        fi
+        
         # Homebrew 확인
         if ! command -v brew &> /dev/null; then
             echo "🍺 Homebrew 설치 중..."
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            
+            # Homebrew PATH 설정
+            if [[ -f ~/.zshrc ]]; then
+                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshrc
+                eval "$(/opt/homebrew/bin/brew shellenv)"
+            elif [[ -f ~/.bash_profile ]]; then
+                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.bash_profile
+                eval "$(/opt/homebrew/bin/brew shellenv)"
+            fi
         fi
+        
         brew install git
     else
         echo "❌ 지원되지 않는 운영체제입니다. Git을 수동으로 설치한 후 다시 시도해주세요."
