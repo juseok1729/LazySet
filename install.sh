@@ -57,14 +57,16 @@ run_with_animation "$BIN_DIR/install_nvm.sh" "NVM 설치 중" 10
 log_info "LazyVim 설치 준비 중..."
 run_with_animation "$BIN_DIR/install_lazyvim.sh \"$CONF_DIR\"" "LazyVim 설치 중" 8
 
+# 설치 완료
 log_success "모든 설치가 완료되었습니다!"
-log_success "이제 'nvim' 명령어로 Neovim을 시작할 수 있습니다."
+log_success "이제 'nvim', 'vi' 또는 'vim' 명령어로 Neovim을 시작할 수 있습니다."
+
+# 시스템 전체 alias 설정 안내
+log_info "시스템 전체에 vi/vim alias를 설정하려면 다음 명령을 실행하세요:"
+log_info "  sudo ./set_system_aliases.sh"
 
 # 설치 완료 후 현재 셸에 alias 추가
 alias vi='nvim'
 alias vim='nvim'
-
-log_success "모든 설치가 완료되었습니다!"
-log_success "이제 'nvim', 'vi' 또는 'vim' 명령어로 Neovim을 시작할 수 있습니다."
 log_info "현재 세션에 'vi' 및 'vim' 별칭이 추가되었습니다."
 log_info "새 터미널에서도 별칭을 사용하려면 'source ~/.bashrc' 명령어를 실행하거나 새 터미널을 열어주세요."
