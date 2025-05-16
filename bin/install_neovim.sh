@@ -43,7 +43,6 @@ add_vi_alias() {
     if ! grep -q "alias vim='nvim'" "$SHELL_CONFIG"; then
         echo "alias vim='nvim'" >> "$SHELL_CONFIG"
     fi
-    source $SHELL_CONFIG
 }
 
 # 인자 확인
