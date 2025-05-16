@@ -23,7 +23,9 @@
 - Linux (Ubuntu, Debian, Fedora, Arch Linux)
 - macOS (Intel, Apple Silicon)
 
-## 원격 설치 방법
+## 설치 및 업데이트
+
+### 원격 설치 (권장)
 
 가장 간단한 방법으로 한 줄의 명령어로 설치할 수 있습니다:
 
@@ -37,7 +39,7 @@ curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/master/remote_in
 wget -O- https://raw.githubusercontent.com/juseok1729/LazySet/master/remote_install.sh | bash
 ```
 
-## 수동 설치 방법
+### 수동 설치
 
 Git 저장소를 클론한 후 설치 스크립트를 실행합니다:
 
@@ -45,6 +47,24 @@ Git 저장소를 클론한 후 설치 스크립트를 실행합니다:
 git clone https://github.com/juseok1729/LazySet.git
 cd LazySet
 chmod +x install.sh
+./install.sh
+```
+
+### 업데이트
+
+설치를 업데이트하려면 원격 설치 스크립트를 다시 실행하면 됩니다:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/master/remote_install.sh | bash
+```
+
+이렇게 하면 최신 스크립트를 다운로드하고 설정을 업데이트합니다.
+
+또는 저장소를 로컬에 클론한 경우:
+
+```bash
+cd LazySet
+git pull
 ./install.sh
 ```
 
