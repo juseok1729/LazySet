@@ -14,6 +14,7 @@
 ├── conf/                   # Neovim 설정 파일
 │   └── lsp.lua             # LSP 설정 예시
 ├── install.sh              # 메인 설치 스크립트
+├── remote_install.sh       # 원격 설치 스크립트
 └── README.md               # 문서
 ```
 
@@ -22,14 +23,22 @@
 - Linux (Ubuntu, Debian, Fedora, Arch Linux)
 - macOS (Intel, Apple Silicon)
 
-## 설치 방법
+## 원격 설치 방법
 
-### 원격 설치
+가장 간단한 방법으로 한 줄의 명령어로 설치할 수 있습니다:
+
 ```bash
-curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/main/remote_install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/master/remote_install.sh | bash
 ```
 
-### 직접 설치
+또는 wget을 사용하는 경우:
+
+```bash
+wget -O- https://raw.githubusercontent.com/juseok1729/LazySet/master/remote_install.sh | bash
+```
+
+## 수동 설치 방법
+
 Git 저장소를 클론한 후 설치 스크립트를 실행합니다:
 
 ```bash
@@ -66,7 +75,7 @@ chmod +x install.sh
 ## 설치되는 도구
 
 - **Neovim**: 최신 버전의 Neovim 에디터
-- **개발 도구**: ripgrep, fzf, fd, git
+- **개발 도구**: ripgrep, fzf, fd, git, gcc
 - **NVM**: Node.js 버전 관리자 (최신 LTS Node.js 버전 자동 설치)
 - **LazyVim**: Neovim 구성 프레임워크
 
@@ -77,7 +86,7 @@ chmod +x install.sh
 예시 파일:
 - `lsp.lua`: 언어 서버 프로토콜(LSP) 설정
 
-추가 설정 파일을 생성하려면 `.lua` 확장자를 가진 파일을 `conf` 디렉토리에 추가하세요.
+추가 설정 파일을 생성하려면 `.lua` 확장자를 가진 파일을 `conf` 디렉토리에 추가하세요. 파일이 없거나 디렉토리가 비어 있어도 기본 LazyVim 설정으로 정상 설치됩니다.
 
 ## 문제 해결
 
@@ -89,6 +98,12 @@ source ~/.bashrc
 
 # macOS의 경우
 source ~/.zshrc  # 또는 ~/.bashrc
+```
+
+macOS에서 Xcode Command Line Tools 설치가 필요한 경우 다음 명령어로 설치할 수 있습니다:
+
+```bash
+xcode-select --install
 ```
 
 ## 커스터마이징
