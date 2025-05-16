@@ -3,7 +3,7 @@
 # 유틸리티 함수 모음
 
 # 기본 애니메이션 유형 설정
-ANIMATION_TYPE="emoji"  # 기본값: emoji (spinner, emoji, progress 중 선택 가능)
+ANIMATION_TYPE="spinner"  # 기본값: spinner (spinner, emoji, progress 중 선택 가능)
 
 # 컬러 설정
 RED='\033[0;31m'
