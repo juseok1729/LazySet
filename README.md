@@ -6,8 +6,8 @@ This repository provides scripts to automatically install Neovim, LazyVim, and o
 
 - [Structure](#repository-structure)
 - [Environments](#supported-environments)
-- [Installing and Updating](#installing-and-update)
-   - [Install Script](#remote-installation)
+- [Installing and Updating](#installing-and-updating)
+   - [Install Script](#install--update-script)
    - [Mannual Installation](#manual-installation)
    - [Installing Individual Components](#installing-individual-components)
    - [Installed Tools](#installed-tools)
