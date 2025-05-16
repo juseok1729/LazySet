@@ -20,16 +20,17 @@ show_spinner() {
     local pid=$1
     local delay=0.1
     local spinstr='|/-\'
-    local temp
-
+    
+    echo -ne " "  # 스피너 자리 확보
+    
     while ps -p $pid &>/dev/null; do
-        temp=${spinstr#?}
-        printf " [%c]  " "$spinstr"
+        local temp=${spinstr#?}
+        echo -ne "\b${spinstr:0:1}"  # 백스페이스 후 첫 문자 출력
         spinstr=$temp${spinstr%"$temp"}
         sleep $delay
-        printf "\b\b\b\b\b\b"
     done
-    printf "    \b\b\b\b"
+    
+    echo -ne "\b "  # 스피너 지우기
 }
 
 # 이모지 로딩 애니메이션 함수
@@ -39,20 +40,25 @@ show_emoji_loading() {
     local emojis=("🔄" "⚙️" "📦" "🚀" "✨" "🔨" "🛠️" "📝")
     local i=0
     
+    # 타이틀 출력
     echo -ne "${CYAN}$title ${RESET}"
-    printf "${YELLOW}%s${RESET}" "${emojis[0]}"  # 초기 이모지 출력
     
+    # 첫 번째 이모지 출력
+    echo -ne "${YELLOW}${emojis[0]}${RESET}"
+    
+    # 프로세스가 실행 중인 동안 이모지 애니메이션
     while ps -p $pid &>/dev/null; do
         sleep 0.2
-        # 이전 이모지 지우기
-        printf "\b"
-        # 새 이모지 출력
-        printf "${YELLOW}%s${RESET}" "${emojis[i]}"
+        # 현재 이모지 지우기
+        echo -ne "\b \b"  # 백스페이스, 공백, 다시 백스페이스
+        # 다음 이모지 출력
         i=$(( (i+1) % ${#emojis[@]} ))
+        echo -ne "${YELLOW}${emojis[$i]}${RESET}"
     done
     
-    # 마지막 이모지 지우기 
-    printf "\b"
+    # 마지막 이모지 지우기
+    echo -ne "\b \b"
+    # 성공 마크 출력
     echo -e "${GREEN}✅${RESET}"
 }
 
@@ -80,32 +86,33 @@ show_progress_bar() {
         fi
         
         # 프로그레스 바 그리기
-        printf "["
+        echo -ne "["
         local i=0
         for ((i=0; i<$progress; i++)); do
-            printf "${GREEN}$char_done${RESET}"
+            echo -ne "${GREEN}$char_done${RESET}"
         done
         
         for ((i=$progress; i<$bar_size; i++)); do
-            printf "${YELLOW}$char_todo${RESET}"
+            echo -ne "${YELLOW}$char_todo${RESET}"
         done
         
-        printf "] ${BOLD}%d%%${RESET}" $(( (progress * 100) / bar_size ))
+        echo -ne "] ${BOLD}$(( (progress * 100) / bar_size ))%%${RESET}"
         
         sleep 0.2
         
         if [ $progress -lt $bar_size ]; then
-            printf "\r"
+            # 전체 프로그레스 바 지우기
+            echo -ne "\r${CYAN}$title ${RESET}"
         fi
     done
     
     if [ $progress -lt $bar_size ]; then
         progress=$bar_size
-        printf "\r["
+        echo -ne "["
         for ((i=0; i<$bar_size; i++)); do
-            printf "${GREEN}$char_done${RESET}"
+            echo -ne "${GREEN}$char_done${RESET}"
         done
-        printf "] ${BOLD}100%%${RESET}"
+        echo -ne "] ${BOLD}100%%${RESET}"
     fi
     
     echo -e " ${GREEN}✅${RESET}"
