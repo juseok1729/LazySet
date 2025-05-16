@@ -1,45 +1,59 @@
 # LazySet
 
-이 저장소는 Neovim, LazyVim 및 필요한 개발 도구를 자동으로 설치하는 스크립트를 제공합니다.
+This repository provides scripts to automatically install Neovim, LazyVim, and other necessary development tools.
 
-## 저장소 구조
+## Table of Contents
+
+- [Structure](#repository-structure)
+- [Environments](#supported-environments)
+- [Installing and Updating](#installing-and-update)
+   - [Install Script](#remote-installation)
+   - [Mannual Installation](#manual-installation)
+   - [Installing Individual Components](#installing-individual-components)
+   - [Installed Tools](#installed-tools)
+- [Custom Configuration](#custom-configuration)
+- [Troubleshooting](#troubleshooting)
+- [Customization](#customization)
+
+## Repository Structure
 
 ```
 .
-├── bin/                    # 설치 스크립트
-│   ├── install_neovim.sh   # Neovim 설치
-│   ├── install_packages.sh # 필요한 패키지 설치
-│   ├── install_nvm.sh      # NVM(Node Version Manager) 설치
-│   └── install_lazyvim.sh  # LazyVim 설치
-├── conf/                   # Neovim 설정 파일
-│   └── lsp.lua             # LSP 설정 예시
-├── install.sh              # 메인 설치 스크립트
-├── remote_install.sh       # 원격 설치 스크립트
-└── README.md               # 문서
+├── bin/                    # Installation scripts
+│   ├── install_neovim.sh   # Neovim installation
+│   ├── install_packages.sh # Required packages installation
+│   ├── install_nvm.sh      # NVM (Node Version Manager) installation
+│   └── install_lazyvim.sh  # LazyVim installation
+├── conf/                   # Neovim configuration files
+│   └── lsp.lua             # LSP configuration example
+├── install.sh              # Main installation script
+├── remote_install.sh       # Remote installation script
+└── README.md               # Documentation
 ```
 
-## 지원되는 환경
+## Supported Environments
 
 - Linux (Ubuntu, Debian, Fedora, Arch Linux)
 - macOS (Intel, Apple Silicon)
 
-## 원격 설치 방법
+## Installing and Updating
+### Install & Update Script
 
-가장 간단한 방법으로 한 줄의 명령어로 설치할 수 있습니다:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/master/remote_install.sh | bash
-```
-
-또는 wget을 사용하는 경우:
+The simplest way to install is with a single command:
 
 ```bash
-wget -O- https://raw.githubusercontent.com/juseok1729/LazySet/master/remote_install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/main/remote_install.sh | bash
 ```
 
-## 수동 설치 방법
+Or if you use wget:
 
-Git 저장소를 클론한 후 설치 스크립트를 실행합니다:
+```bash
+wget -O- https://raw.githubusercontent.com/juseok1729/LazySet/main/remote_install.sh | bash
+```
+
+### Manual Installation
+
+Clone the Git repository and run the installation script:
 
 ```bash
 git clone https://github.com/juseok1729/LazySet.git
@@ -48,64 +62,64 @@ chmod +x install.sh
 ./install.sh
 ```
 
-## 개별 구성 요소 설치
+### Installing Individual Components
 
-필요한 경우 개별 구성 요소만 설치할 수 있습니다:
+If needed, you can install individual components:
 
-1. Neovim 설치:
+1. Install Neovim:
    ```bash
    ./bin/install_neovim.sh [linux|macos] [x86_64|arm64]
    ```
 
-2. 필요한 패키지 설치:
+2. Install required packages:
    ```bash
    ./bin/install_packages.sh [linux|macos]
    ```
 
-3. NVM(Node Version Manager) 설치:
+3. Install NVM (Node Version Manager):
    ```bash
    ./bin/install_nvm.sh
    ```
 
-4. LazyVim 설치:
+4. Install LazyVim:
    ```bash
    ./bin/install_lazyvim.sh [conf_dir_path]
    ```
 
-## 설치되는 도구
+### Installed Tools
 
-- **Neovim**: 최신 버전의 Neovim 에디터
-- **개발 도구**: ripgrep, fzf, fd, git, gcc
-- **NVM**: Node.js 버전 관리자 (최신 LTS Node.js 버전 자동 설치)
-- **LazyVim**: Neovim 구성 프레임워크
+- **Neovim**: Latest version of the Neovim editor
+- **Development Tools**: ripgrep, fzf, fd, git, gcc
+- **NVM**: Node.js Version Manager (automatically installs the latest LTS Node.js version)
+- **LazyVim**: Neovim configuration framework
 
-## 사용자 정의 설정
+## Custom Configuration
 
-`conf` 디렉토리에 Neovim 설정 파일을 추가할 수 있습니다. 설치 시 이러한 파일들이 `~/.config/nvim/lua/plugins/` 디렉토리에 자동으로 복사됩니다.
+You can add Neovim configuration files to the `conf` directory. During installation, these files will be automatically copied to the `~/.config/nvim/lua/plugins/` directory.
 
-예시 파일:
-- `lsp.lua`: 언어 서버 프로토콜(LSP) 설정
+Example files:
+- `lsp.lua`: Language Server Protocol (LSP) configuration
 
-추가 설정 파일을 생성하려면 `.lua` 확장자를 가진 파일을 `conf` 디렉토리에 추가하세요. 파일이 없거나 디렉토리가 비어 있어도 기본 LazyVim 설정으로 정상 설치됩니다.
+To create additional configuration files, add files with the `.lua` extension to the `conf` directory. The installation will proceed normally with default LazyVim settings even if there are no files or the directory is empty.
 
-## 문제 해결
+## Troubleshooting
 
-설치 후 `nvim` 명령이 작동하지 않는 경우:
+If the `nvim` command doesn't work after installation:
 
 ```bash
-# Linux의 경우
+# For Linux
 source ~/.bashrc
 
-# macOS의 경우
-source ~/.zshrc  # 또는 ~/.bashrc
+# For macOS
+source ~/.zshrc  # or ~/.bashrc
 ```
 
-macOS에서 Xcode Command Line Tools 설치가 필요한 경우 다음 명령어로 설치할 수 있습니다:
+If you need to install Xcode Command Line Tools on macOS, you can install them with the following command:
 
 ```bash
 xcode-select --install
 ```
 
-## 커스터마이징
+## Customization
 
-기본 설치 후 LazyVim 구성을 추가로 커스터마이징하려면 `~/.config/nvim` 디렉토리의 파일을 편집하세요.
+To further customize the LazyVim configuration after the basic installation, edit the files in the `~/.config/nvim` directory.
