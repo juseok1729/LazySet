@@ -37,17 +37,16 @@ animate_spinner() {
     local delay=0.1
     
     echo -ne "${CYAN}$message ${RESET}"
-    printf "${YELLOW}%s${RESET}" "${spinstr:0:1}"  # 초기 문자 출력
+    echo -ne "${YELLOW}${spinstr:0:1}${RESET}"  # 첫 번째 문자 출력
     
     while ps -p $pid &>/dev/null; do
         local temp=${spinstr#?}
         sleep $delay
-        printf "\b"  # 이전 문자 지우기
-        printf "${YELLOW}%c${RESET}" "${spinstr:0:1}"
+        echo -ne "\b${spinstr:0:1}"  # 백스페이스 후 새 문자 출력
         spinstr=$temp${spinstr%"$temp"}
     done
     
-    printf "\b"  # 마지막 문자 지우기
+    echo -ne "\b"  # 마지막 문자 지우기
     echo -e "${GREEN}✅${RESET}"
 }
 
