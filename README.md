@@ -24,6 +24,12 @@
 
 ## 설치 방법
 
+### 원격 설치
+```bash
+curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/main/remote_install.sh | bash
+```
+
+### 직접 설치
 Git 저장소를 클론한 후 설치 스크립트를 실행합니다:
 
 ```bash
