@@ -3,7 +3,7 @@
 # 유틸리티 함수 모음
 
 # 기본 애니메이션 유형 설정
-ANIMATION_TYPE="spinner"  # 기본값: spinner (spinner, emoji, progress 중 선택 가능)
+ANIMATION_TYPE="emoji"  # 기본값: emoji (spinner, emoji, progress 중 선택 가능)
 
 # 컬러 설정
 RED='\033[0;31m'
@@ -19,7 +19,7 @@ RESET='\033[0m'
 show_spinner() {
     local pid=$1
     local delay=0.1
-    local spinstr='⣾⣽⣻⢿⡿⣟⣯⣷'
+    local spinstr='|/-\'
     local temp
 
     while ps -p $pid &>/dev/null; do
@@ -40,15 +40,20 @@ show_emoji_loading() {
     local i=0
     
     echo -ne "${CYAN}$title ${RESET}"
+    printf "${YELLOW}%s${RESET}" "${emojis[0]}"  # 초기 이모지 출력
     
     while ps -p $pid &>/dev/null; do
-        printf "${YELLOW}%s${RESET}" "${emojis[i]}"
         sleep 0.2
+        # 이전 이모지 지우기
         printf "\b"
+        # 새 이모지 출력
+        printf "${YELLOW}%s${RESET}" "${emojis[i]}"
         i=$(( (i+1) % ${#emojis[@]} ))
     done
     
-    echo -e " ${GREEN}✅${RESET}"
+    # 마지막 이모지 지우기 
+    printf "\b"
+    echo -e "${GREEN}✅${RESET}"
 }
 
 # 프로그레스 바 함수

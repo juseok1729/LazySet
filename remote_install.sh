@@ -33,20 +33,22 @@ log_error() {
 animate_spinner() {
     local pid=$1
     local message=$2
-    local spinstr='⣾⣽⣻⢿⡿⣟⣯⣷'
+    local spinstr='|/-\'
     local delay=0.1
     
     echo -ne "${CYAN}$message ${RESET}"
+    printf "${YELLOW}%s${RESET}" "${spinstr:0:1}"  # 초기 문자 출력
     
     while ps -p $pid &>/dev/null; do
         local temp=${spinstr#?}
-        printf "${YELLOW}%c${RESET}" "$spinstr"
-        local spinstr=$temp${spinstr%"$temp"}
         sleep $delay
-        printf "\b"
+        printf "\b"  # 이전 문자 지우기
+        printf "${YELLOW}%c${RESET}" "${spinstr:0:1}"
+        spinstr=$temp${spinstr%"$temp"}
     done
     
-    echo -e " ${GREEN}✅${RESET}"
+    printf "\b"  # 마지막 문자 지우기
+    echo -e "${GREEN}✅${RESET}"
 }
 
 # 명령어 실행 함수

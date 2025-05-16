@@ -33,7 +33,7 @@ chmod +x "$BIN_DIR/install_lazyvim.sh"
 chmod +x "$BIN_DIR/utils.sh"
 
 # 애니메이션 유형 설정 (spinner, emoji, progress, none 중 선택)
-set_animation_type "spinner"
+set_animation_type "emoji"
 
 # 설치 시작
 log_info "설치를 시작합니다..."
