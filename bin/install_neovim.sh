@@ -17,6 +17,11 @@ if [[ "$OS" == "linux" ]]; then
     sudo rm -rf /opt/nvim
     sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
     
+    # /usr/local/bin에 심볼릭 링크 생성
+    echo "🔗 심볼릭 링크 생성 중..."
+    sudo mkdir -p /usr/local/bin
+    sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
+    
     # PATH 추가 (이미 있는지 확인)
     if ! grep -q 'export PATH="$PATH:/opt/nvim-linux-x86_64/bin"' ~/.bashrc; then
         echo 'export PATH="$PATH:/opt/nvim-linux-x86_64/bin"' >> ~/.bashrc
@@ -55,7 +60,9 @@ fi
 # 설치 확인
 if command -v nvim &> /dev/null; then
     echo "✅ Neovim 설치 버전: $(nvim --version | head -n 1)"
+    echo "✅ Neovim 명령어 경로: $(which nvim)"
 else
     echo "⚠️ Neovim이 설치되었지만 PATH에 추가되지 않았습니다."
+    echo "⚠️ 다음 명령어로 Neovim을 직접 실행할 수 있습니다: /usr/local/bin/nvim"
     echo "🔄 세션을 다시 시작하거나 'source ~/.bashrc' 명령어를 실행해주세요."
 fi
