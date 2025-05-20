@@ -30,13 +30,13 @@
 가장 간단한 방법으로 한 줄의 명령어로 설치할 수 있습니다:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/master/remote_install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/main/remote_install.sh | bash
 ```
 
 또는 wget을 사용하는 경우:
 
 ```bash
-wget -O- https://raw.githubusercontent.com/juseok1729/LazySet/master/remote_install.sh | bash
+wget -O- https://raw.githubusercontent.com/juseok1729/LazySet/main/remote_install.sh | bash
 ```
 
 ### 수동 설치

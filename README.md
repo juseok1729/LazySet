@@ -42,13 +42,13 @@ This repository provides scripts to automatically install Neovim, LazyVim, and o
 The simplest way to install is with a single command:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/master/remote_install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/main/remote_install.sh | bash
 ```
 
 Or if you use wget:
 
 ```bash
-wget -O- https://raw.githubusercontent.com/juseok1729/LazySet/master/remote_install.sh | bash
+wget -O- https://raw.githubusercontent.com/juseok1729/LazySet/main/remote_install.sh | bash
 ```
 
 ### Manual Installation
