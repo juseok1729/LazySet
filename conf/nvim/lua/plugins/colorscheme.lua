@@ -1,3 +1,4 @@
+-- https://github.com/LazyVim/LazyVim/discussions/116#discussioncomment-4763452
 return {
   {
     "folke/tokyonight.nvim",
