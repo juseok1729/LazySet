@@ -1,12 +1,12 @@
 # 커서 설정
-cursor-style = block        # 커서 스타일
-cursor-opacity = 1          # 커서 불투명(0=투명, 1=불투명)
-cursor-style-blink = true   # 커서 깜빡임 활성화
 shell-integration-features = no-cursor 
+cursor-style = block            # 커서 스타일
+cursor-opacity = 1              # 커서 불투명(0=투명, 1=불투명)
+cursor-style-blink = true       # 커서 깜빡임 활성화
 
 # 배경
-background-opacity = 0.8    # 뒷 배경 투명도 (0=투명, 1=불투명)
-background-blur = true      # 뒷 배경 흐림 활성화
+background-opacity = 0.8        # 뒷 배경 투명도 (0=투명, 1=불투명)
+background-blur = true          # 뒷 배경 흐림 활성화
 
 # 창
 macos-titlebar-style = hidden   # 맥 에뮬레이터 타이틀바 제거
