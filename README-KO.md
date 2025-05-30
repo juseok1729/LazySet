@@ -26,8 +26,8 @@
 │   └── install_lazyvim.sh  # LazyVim 설치
 ├── conf/                   # Neovim 구성 파일
 │   └── lsp.lua             # LSP 구성 예제
-├── install.sh              # 메인 설치 스크립트
-├── remote_install.sh       # 원격 설치 스크립트
+├── _install.sh             # 메인 설치 스크립트
+├── install.sh              # 원격 설치 스크립트
 └── README.md               # 문서
 ```
 
@@ -42,13 +42,13 @@
 설치하는 가장 간단한 방법은 다음과 같은 단일 명령어입니다:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/main/remote_install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/main/install.sh | bash
 ```
 
 또는 wget을 사용하는 경우:
 
 ```bash
-wget -O- https://raw.githubusercontent.com/juseok1729/LazySet/main/remote_install.sh | bash
+wget -O- https://raw.githubusercontent.com/juseok1729/LazySet/main/install.sh | bash
 ```
 
 ### 수동 설치
@@ -58,8 +58,8 @@ Git 저장소를 복제하고 설치 스크립트를 실행하세요:
 ```bash
 git clone https://github.com/juseok1729/LazySet.git
 cd LazySet
-chmod +x install.sh
-./install.sh
+chmod +x _install.sh
+./_install.sh
 ```
 
 ### 개별 구성 요소 설치

@@ -1,72 +1,157 @@
 #!/bin/bash
 
-# 스크립트 위치 확인
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-BIN_DIR="$SCRIPT_DIR/bin"
-CONF_DIR="$SCRIPT_DIR/conf"
+# 원격 저장소 URL
+REPO_URL="https://github.com/juseok1729/LazySet.git"
+TEMP_DIR="/tmp/dev-setup-$(date +%s)"
 
-# 유틸리티 스크립트 로드
-source "$BIN_DIR/utils.sh"
+# 간단한 색상 설정
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+RESET='\033[0m'
 
-# 운영체제 확인
-OS="unknown"
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    OS="linux"
-    log_info "Linux 운영체제가 감지되었습니다."
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-    OS="macos"
-    log_info "macOS 운영체제가 감지되었습니다."
-else
-    log_error "지원되지 않는 운영체제입니다: $OSTYPE"
+# 로그 함수
+log_info() {
+    echo -e "${BLUE}ℹ️ ${RESET}$1"
+}
+
+log_success() {
+    echo -e "${GREEN}✅ ${RESET}$1"
+}
+
+log_warning() {
+    echo -e "${YELLOW}⚠️ ${RESET}$1"
+}
+
+log_error() {
+    echo -e "${RED}❌ ${RESET}$1"
+}
+
+# 진행 애니메이션 함수
+animate_spinner() {
+    local pid=$1
+    local message=$2
+    local spinstr='|/-\'
+    local delay=0.1
+    
+    echo -ne "${CYAN}$message ${RESET}"
+    echo -ne "${YELLOW}${spinstr:0:1}${RESET}"  # 첫 번째 문자 출력
+    
+    while ps -p $pid &>/dev/null; do
+        local temp=${spinstr#?}
+        sleep $delay
+        echo -ne "\b${spinstr:0:1}"  # 백스페이스 후 새 문자 출력
+        spinstr=$temp${spinstr%"$temp"}
+    done
+    
+    echo -ne "\b"  # 마지막 문자 지우기
+    echo -e "${GREEN}✅${RESET}"
+}
+
+# 명령어 실행 함수
+run_with_animation() {
+    local cmd="$1"
+    local message="$2"
+    
+    # 명령 출력을 /dev/null로 리다이렉션
+    eval "$cmd > /dev/null 2>&1" &
+    local pid=$!
+    
+    animate_spinner $pid "$message"
+    
+    wait $pid
+    local exit_status=$?
+    
+    if [ $exit_status -ne 0 ]; then
+        log_error "$message 실패"
+        return $exit_status
+    fi
+    
+    return 0
+}
+
+log_info "개발 환경 설치 스크립트 다운로드 중..."
+
+# Git이 설치되어 있는지 확인
+if ! command -v git &> /dev/null; then
+    log_warning "Git이 설치되어 있지 않습니다. 설치를 진행합니다..."
+    
+    # 운영체제 확인
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        # 배포판 확인
+        if [ -f /etc/os-release ]; then
+            . /etc/os-release
+            DISTRO=$ID
+            
+            if [[ "$DISTRO" == "ubuntu" || "$DISTRO" == "debian" ]]; then
+                run_with_animation "sudo apt update && sudo apt install -y git" "Git 설치 중"
+            elif [[ "$DISTRO" == "fedora" ]]; then
+                run_with_animation "sudo dnf install -y git" "Git 설치 중"
+            elif [[ "$DISTRO" == "arch" ]]; then
+                run_with_animation "sudo pacman -Sy git" "Git 설치 중"
+            else
+                log_error "지원되지 않는 Linux 배포판입니다. Git을 수동으로 설치한 후 다시 시도해주세요."
+                exit 1
+            fi
+        else
+            log_error "배포판을 확인할 수 없습니다. Git을 수동으로 설치한 후 다시 시도해주세요."
+            exit 1
+        fi
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        # Xcode Command Line Tools 확인 및 설치
+        if ! xcode-select -p &>/dev/null; then
+            log_info "Xcode Command Line Tools 설치 중..."
+            xcode-select --install
+            
+            log_warning "Xcode Command Line Tools 설치가 진행 중입니다."
+            log_warning "설치 프롬프트가 표시되면 '설치'를 클릭하고 설치가 완료될 때까지 기다려주세요."
+            log_warning "설치가 완료된 후 이 스크립트를 다시 실행해주세요."
+            
+            exit 1
+        fi
+        
+        # Homebrew 확인
+        if ! command -v brew &> /dev/null; then
+            log_info "Homebrew 설치 중..."
+            run_with_animation "/bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"" "Homebrew 설치 중"
+            
+            # Homebrew PATH 설정
+            if [[ -f ~/.zshrc ]]; then
+                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshrc
+                eval "$(/opt/homebrew/bin/brew shellenv)"
+            elif [[ -f ~/.bash_profile ]]; then
+                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.bash_profile
+                eval "$(/opt/homebrew/bin/brew shellenv)"
+            fi
+        fi
+        
+        run_with_animation "brew install git" "Git 설치 중"
+    else
+        log_error "지원되지 않는 운영체제입니다. Git을 수동으로 설치한 후 다시 시도해주세요."
+        exit 1
+    fi
+fi
+
+# 임시 디렉토리 생성 및 저장소 클론
+mkdir -p "$TEMP_DIR"
+run_with_animation "git clone \"$REPO_URL\" \"$TEMP_DIR\"" "저장소 클론 중"
+
+if [ $? -ne 0 ]; then
+    log_error "저장소 클론에 실패했습니다. URL을 확인하고 다시 시도해주세요."
+    rm -rf "$TEMP_DIR"
     exit 1
 fi
 
-# 머신 유형 확인
-MACHINE=$(uname -m)
-log_info "머신 유형: $MACHINE"
+# 설치 스크립트 실행
+cd "$TEMP_DIR"
+chmod +x _install.sh
+./_install.sh
 
-# 권한 부여
-chmod +x "$BIN_DIR/install_neovim.sh"
-chmod +x "$BIN_DIR/install_packages.sh"
-chmod +x "$BIN_DIR/install_nvm.sh"
-chmod +x "$BIN_DIR/install_lazyvim.sh"
-chmod +x "$BIN_DIR/utils.sh"
+# 정리
+log_info "임시 파일 정리 중..."
+cd "$HOME"
+rm -rf "$TEMP_DIR"
 
-# 애니메이션 유형 설정 (spinner, emoji, progress, none 중 선택)
-set_animation_type "spinner"
-
-# 설치 시작
-log_info "설치를 시작합니다..."
-
-# 로그 수준 설정 (quiet 모드 - 설치 로그 숨김)
-export INSTALL_LOG_LEVEL="quiet"
-
-# Neovim 설치
-log_info "Neovim 설치 준비 중..."
-run_with_animation "$BIN_DIR/install_neovim.sh \"$OS\" \"$MACHINE\"" "Neovim 설치 중" 15
-
-# 패키지 설치
-log_info "필요한 패키지 설치 준비 중..."
-run_with_animation "$BIN_DIR/install_packages.sh \"$OS\"" "패키지 설치 중" 20
-
-# NVM 설치
-log_info "NVM 설치 준비 중..."
-run_with_animation "$BIN_DIR/install_nvm.sh" "NVM 설치 중" 10
-
-# LazyVim 설치
-log_info "LazyVim 설치 준비 중..."
-run_with_animation "$BIN_DIR/install_lazyvim.sh \"$CONF_DIR\"" "LazyVim 설치 중" 8
-
-# 설치 완료
-log_success "모든 설치가 완료되었습니다!"
-log_success "이제 'nvim', 'vi' 또는 'vim' 명령어로 Neovim을 시작할 수 있습니다."
-
-# 시스템 전체 alias 설정 안내
-log_info "시스템 전체에 vi/vim alias를 설정하려면 다음 명령을 실행하세요:"
-log_info "  sudo ./set_system_aliases.sh"
-
-# 설치 완료 후 현재 셸에 alias 추가
-alias vi='nvim'
-alias vim='nvim'
-log_info "현재 세션에 'vi' 및 'vim' 별칭이 추가되었습니다."
-log_info "새 터미널에서도 별칭을 사용하려면 'source ~/.bashrc' 명령어를 실행하거나 새 터미널을 열어주세요."
+log_success "설치가 완료되었습니다!"

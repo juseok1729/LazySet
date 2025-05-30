@@ -26,8 +26,8 @@ This repository provides scripts to automatically install Neovim, LazyVim, and o
 │   └── install_lazyvim.sh  # LazyVim installation
 ├── conf/                   # Neovim configuration files
 │   └── lsp.lua             # LSP configuration example
-├── install.sh              # Main installation script
-├── remote_install.sh       # Remote installation script
+├── _install.sh             # Main installation script
+├── install.sh              # Remote installation script
 └── README.md               # Documentation
 ```
 
@@ -42,13 +42,13 @@ This repository provides scripts to automatically install Neovim, LazyVim, and o
 The simplest way to install is with a single command:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/main/remote_install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/juseok1729/LazySet/main/install.sh | bash
 ```
 
 Or if you use wget:
 
 ```bash
-wget -O- https://raw.githubusercontent.com/juseok1729/LazySet/main/remote_install.sh | bash
+wget -O- https://raw.githubusercontent.com/juseok1729/LazySet/main/install.sh | bash
 ```
 
 ### Manual Installation
@@ -58,8 +58,8 @@ Clone the Git repository and run the installation script:
 ```bash
 git clone https://github.com/juseok1729/LazySet.git
 cd LazySet
-chmod +x install.sh
-./install.sh
+chmod +x _install.sh
+./_install.sh
 ```
 
 ### Installing Individual Components
