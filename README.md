@@ -19,16 +19,32 @@ This repository provides scripts to automatically install Neovim, LazyVim, and o
 
 ```
 .
-├── bin/                    # Installation scripts
-│   ├── install_neovim.sh   # Neovim installation
-│   ├── install_packages.sh # Required packages installation
-│   ├── install_nvm.sh      # NVM (Node Version Manager) installation
-│   └── install_lazyvim.sh  # LazyVim installation
-├── conf/                   # Neovim configuration files
-│   └── lsp.lua             # LSP configuration example
-├── _install.sh             # Main installation script
-├── install.sh              # Remote installation script
-└── README.md               # Documentation
+├── README-KO.md               # Korean documentation
+├── README.md                  # English documentation
+├── _install.sh                # Main installation script
+├── bin/                       # Installation scripts directory
+│   ├── install_lazyvim.sh     # LazyVim installation script
+│   ├── install_neovim.sh      # Neovim installation script
+│   ├── install_nvm.sh         # NVM (Node Version Manager) installation script
+│   ├── install_packages.sh    # Required packages installation script
+│   └── utils.sh               # Utility functions for scripts
+├── conf/                      # Configuration files directory
+│   ├── ghostty/               # Ghostty terminal configuration
+│   │   └── config             # Ghostty configuration file
+│   ├── nvim/                  # Neovim configuration files
+│   │   ├── lazy-lock.json     # LazyVim plugin lock file
+│   │   ├── lazyvim.json       # LazyVim configuration file
+│   │   └── lua/               # Lua configuration directory
+│   │       ├── config/        # Core configuration files
+│   │       │   ├── autocmds.lua    # Auto commands configuration
+│   │       │   ├── keymaps.lua     # Key mappings configuration
+│   │       │   ├── lazy.lua        # Lazy.nvim plugin manager configuration
+│   │       │   └── options.lua     # Neovim options configuration
+│   │       └── plugins/       # Plugin configurations
+│   │           └── colorscheme.lua # Color scheme configuration
+│   └── vivaldi/               # Vivaldi browser configuration
+│       └── Preferences        # Vivaldi preferences file
+└── install.sh                 # Remote installation script
 ```
 
 ## Supported Environments

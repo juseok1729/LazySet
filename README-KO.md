@@ -19,16 +19,32 @@
 
 ```
 .
-├── bin/                    # 설치 스크립트
-│   ├── install_neovim.sh   # Neovim 설치
-│   ├── install_packages.sh # 필요한 패키지 설치
-│   ├── install_nvm.sh      # NVM (Node Version Manager) 설치
-│   └── install_lazyvim.sh  # LazyVim 설치
-├── conf/                   # Neovim 구성 파일
-│   └── lsp.lua             # LSP 구성 예제
-├── _install.sh             # 메인 설치 스크립트
-├── install.sh              # 원격 설치 스크립트
-└── README.md               # 문서
+├── README-KO.md               # 한국어 문서
+├── README.md                  # 영어 문서
+├── _install.sh                # 메인 설치 스크립트
+├── bin/                       # 설치 스크립트 디렉토리
+│   ├── install_lazyvim.sh     # LazyVim 설치 스크립트
+│   ├── install_neovim.sh      # Neovim 설치 스크립트
+│   ├── install_nvm.sh         # NVM (Node Version Manager) 설치 스크립트
+│   ├── install_packages.sh    # 필수 패키지 설치 스크립트
+│   └── utils.sh               # 스크립트용 유틸리티 함수
+├── conf/                      # 설정 파일 디렉토리
+│   ├── ghostty/               # Ghostty 터미널 설정
+│   │   └── config             # Ghostty 설정 파일
+│   ├── nvim/                  # Neovim 설정 파일들
+│   │   ├── lazy-lock.json     # LazyVim 플러그인 잠금 파일
+│   │   ├── lazyvim.json       # LazyVim 설정 파일
+│   │   └── lua/               # Lua 설정 디렉토리
+│   │       ├── config/        # 핵심 설정 파일들
+│   │       │   ├── autocmds.lua    # 자동 명령 설정
+│   │       │   ├── keymaps.lua     # 키 매핑 설정
+│   │       │   ├── lazy.lua        # Lazy.nvim 플러그인 매니저 설정
+│   │       │   └── options.lua     # Neovim 옵션 설정
+│   │       └── plugins/       # 플러그인 설정들
+│   │           └── colorscheme.lua # 컬러 스킴 설정
+│   └── vivaldi/               # Vivaldi 브라우저 설정
+│       └── Preferences        # Vivaldi 환경설정 파일
+└── install.sh                 # 원격 설치 스크립트
 ```
 
 ## 지원되는 환경
